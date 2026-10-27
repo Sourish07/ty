@@ -5,13 +5,13 @@ to sk-ml over SSH. The regular command-line installation stays on upstream ty.
 
 ## Installation boundaries
 
-| Purpose | Location on sk-ml |
-| --- | --- |
-| Zed's custom executable | `/home/sourish/.local/share/zed/ty-custom/ty` |
-| Zed's remote settings | `/home/sourish/.config/zed/settings.json` |
-| Regular upstream command | `/home/sourish/.local/bin/ty` |
-| Regular upstream uv tool environment | `/home/sourish/.local/share/uv/tools/ty` |
-| Fork source checkout | `/home/sourish/src/ty-fork` |
+| Purpose                              | Location on sk-ml                             |
+| ------------------------------------ | --------------------------------------------- |
+| Zed's custom executable              | `/home/sourish/.local/share/zed/ty-custom/ty` |
+| Zed's remote settings                | `/home/sourish/.config/zed/settings.json`     |
+| Regular upstream command             | `/home/sourish/.local/bin/ty`                 |
+| Regular upstream uv tool environment | `/home/sourish/.local/share/uv/tools/ty`      |
+| Fork source checkout                 | `/home/sourish/src/ty-fork`                   |
 
 The remote Zed settings contain this override; preserve other settings:
 
@@ -40,10 +40,10 @@ file in its uv tool environment during a fork deployment. Build wheels with
 Both forks use the branch `semantic-tokens-basedpyright-parity`:
 
 - `Sourish07/ruff` contains the Rust implementation; rebase it onto
-  `astral-sh/ruff` main.
+    `astral-sh/ruff` main.
 - `Sourish07/ty` contains the release package and Ruff submodule pin; rebase it
-  onto `astral-sh/ty` main, then commit the updated Ruff pin. Keep `.gitmodules`
-  pointing to `https://github.com/Sourish07/ruff` and the parity branch.
+    onto `astral-sh/ty` main, then commit the updated Ruff pin. Keep `.gitmodules`
+    pointing to `https://github.com/Sourish07/ruff` and the parity branch.
 
 The laptop checkouts are `/Users/sourish/src/ty` and its `ruff` submodule.
 Check both working trees, preserve existing changes, and create backup refs
