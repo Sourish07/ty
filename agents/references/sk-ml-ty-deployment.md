@@ -118,8 +118,29 @@ alone during rollback too.
 
 ## Verified baseline: October 26, 2026
 
-The deployed parity fork is ty `0.0.92` at parent commit
-`25da18367` with Ruff commit `6b90bc64f9`. The regular uv-installed command is
-upstream ty `0.0.92`, with a plain `name = "ty"` receipt. The dedicated custom
-binary passed an LSP smoke check with 65 tokens, both custom modifiers, and no
-diagnostics. Update the baseline after a successful deployment.
+The deployed parity fork is ty `0.0.92` built from parent commit `806253633`
+and Ruff commit `47818982`. The regular uv-installed command is upstream ty
+`0.0.92`, with a plain `name = "ty"` receipt. Update the baseline after a
+successful deployment.
+
+Full-document semantic-token requests retry when changes to the analysis
+database cancel their snapshot. This includes edits to other open documents.
+The retry takes a fresh snapshot and honors explicit client cancellation. This
+avoids returning `content modified` to clients that retain cached colors after
+failed requests. Cursor- and range-based requests retain their existing
+cancellation behavior.
+
+The cancellation fix passed 202 selected server tests, Clippy, and repository
+hooks. A separate LSP stress check with edits to another document returned
+tokens for all 20 requests, honored five explicit client cancellations, and
+produced exactly the same 4,801 settled tokens as the preceding binary. The
+upstream executable and uv receipt hashes were unchanged by deployment.
+
+The regression test is `semantic_tokens_survive_changes_to_another_document`
+in `ruff/crates/ty_server/tests/e2e/semantic_tokens.rs`. Run it from the Ruff
+checkout when validating future rebases:
+
+```sh
+uv run --only-dev --locked cargo nextest run -p ty_server --test e2e \
+    -E 'test(semantic_tokens_survive_changes_to_another_document)'
+```
